@@ -1,5 +1,6 @@
 node_modules
 package-lock.json
-output/pcbs/main.kicad_pro
 output/pcbs/fp-info-cache
-output/pcbs/main.kicad_prl
+*.kicad_prl
+*.kicad_pro
+*.round-tracks-config
