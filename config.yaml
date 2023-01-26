@@ -232,7 +232,7 @@ pcbs:
         params:
           SDA: "P2"
           SCL: "P3"
-          VCC: VCC,
+          VCC: VCC
           GND: GND
           
  
