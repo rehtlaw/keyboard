@@ -165,7 +165,7 @@ pcbs:
         what: via
         where: true
         adjust:
-          shift: [0, 2.2]
+          shift: [0, 2.4]
         params:
           net: "{{column_net}}"
       diode:
