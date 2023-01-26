@@ -1,0 +1,238 @@
+points:
+  key:
+    padding: cy
+    tags:
+      is1u: true
+  zones:
+    main:
+      rows:
+        bottom:
+          bind: [1, 1, 1, 1]
+          row_net: P6
+        home:
+          bind: 1
+          row_net: P5
+        top:
+          bind: 1
+          row_net: P4
+      columns:
+        pinky:
+          key:
+            column_net: P20
+            spread: cx
+        ring:
+          key:
+            column_net: P19
+            spread: cx
+            stagger: 10
+        middle:
+          key:
+            column_net: P18
+            spread: cx
+            stagger: 5
+        index:
+          key:
+            column_net: P15
+            spread: cx
+            stagger: -6
+        far:
+          key:
+            column_net: P14
+            spread: cx
+            stagger: -2
+    thumb:
+      anchor:
+        ref: main_far_bottom
+        shift: [-18, -cy - 2]
+        rotate: 0
+      rows:
+        main:
+          spread: cy
+          row_net: P7
+      columns:
+        inner:
+          rows:
+            main:
+              bind: [1, 1, 1, 1]
+              shift: [-3, 0]
+          key:
+            column_net: P18
+            spread: cy
+        middle:
+          rows:
+            main:
+              bind: [3, 1, 1, 1]
+          key:
+            column_net: P15
+        outer:
+          key: 
+            rotate: -40
+            spread: cx+7
+            stagger: -14
+          rows:
+            main:
+              bind: [2, 2.3, 4, 13]
+              column_net: P14
+              shift: [8, -2]
+              tags:
+                is1u: false
+                is15u: true
+            
+outlines:
+  raw:
+    - what: rectangle
+      size: [1cx, 1cx]
+      where: true
+    - what: rectangle
+      size: [60, 76]
+      adjust:
+        ref: main_far_top
+        shift: [10.042, -29]
+    - what: rectangle
+      size: [104, 33]
+      where:
+        ref: main_ring_bottom
+        shift: [25, -20]
+    - what: rectangle
+      size: [23.7, 30]
+      where:
+        ref: thumb_outer_main
+        shift: [-4,0]
+        rotate: 90
+  bottom_arc_left_intersect:
+    - what: polygon
+      points:
+        - ref: main_pinky_bottom
+          shift: [-2cx, 2cy]
+        - ref: main_middle_bottom
+          shift: [9, cy/2]
+        - ref: main_middle_bottom
+          shift: [9, -3cy]
+        - ref: main_pinky_bottom
+          shift: [-cx/2, -3cy]
+  arc_bottom_left:
+    - what: circle
+      where:
+        ref: main_middle_bottom
+        shift: [-44.42, -145.6]
+      radius: 117
+    - what: outline
+      name: bottom_arc_left_intersect
+      operation: intersect
+  pre:
+    main:
+      what: outline
+      name: raw
+      fillet: 1.5
+    arc_bottom_left:
+      what: outline
+      name: arc_bottom_left
+      operation: subtract
+      fillet: 1.5
+  cutout:
+    pre:
+      what: outline
+      name: pre
+      fillet: 0.4
+  keycap_outlines:
+    - what: rectangle
+      where: "is1u"
+      size: [1cx - 0.5, 1cy - 0.5] # Choc keycaps are 17.5 x 16.5
+      bound: false    
+  keycap_outlines15:
+    - what: rectangle
+      where: "is15u"
+      size: [1.5cx - 0.5, 1cy - 0.5] # 1.5u Choc keycaps are 26.5 x 16.5
+      bound: false
+  preview:
+      [keycap_outlines,keycap_outlines15]
+pcbs:
+  main:
+    outlines:
+      main:
+        outline: cutout
+    footprints:
+      choc_hotswap:
+        what: choc
+        where: true
+        params:
+          from: "{{colrow}}"
+          to: "{{column_net}}"
+          hotswap: true
+          keycaps: true
+          reverse: true
+      via:
+        what: via
+        where: true
+        adjust:
+          shift: [0, 2.2]
+        params:
+          net: "{{column_net}}"
+      diode:
+        what: diode
+        params:
+          from: "{{colrow}}"
+          to: "{{row_net}}"
+        where: true
+        adjust: 
+          shift: [0, -5]
+      promicro:
+        what: promicro_pretty
+        where:
+          ref: main_far_top
+          shift: [20, -8]
+          rotate: 270
+      trackball:
+        what: pimoroni
+        where:
+          ref: thumb_outer_main
+          shift: [-3, 0]
+        params:
+          mirror: true
+      trrs:
+        what: trrs
+        where: 
+          ref: main_far_top
+          shift: [36, 9]
+          rotate: 0
+        params:
+          reverse: true
+          symmetric: false
+          A: ""
+          B: VCC
+          C: GND
+          D: P0
+      reset_f:
+        what: button
+        where:
+          ref: 
+            - main_far_bottom
+          shift: [37, 20]
+          rotate: 270
+        params:
+          from: GND
+          to: RST
+      reset_b:
+        what: button
+        where:
+          ref: 
+            - main_far_bottom
+          shift: [37, 20]
+          rotate: 270
+        params:
+          side: B
+          from: GND
+          to: RST
+      oled:
+        what: oled-reversable
+        where:
+          ref: main_far_top
+          shift: [14, -30]
+          rotate: 90
+        params:
+          SDA: "P2"
+          SCL: "P3"
+          VCC: VCC,
+          GND: GND
+          
+ 
