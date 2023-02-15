@@ -161,13 +161,41 @@ pcbs:
           hotswap: true
           keycaps: true
           reverse: true
-      via:
+      via_switch:
+       what: via
+       where: true
+       adjust:
+        shift: [0, 2.4]
+       params:
+        net: "{{column_net}}"
+      via_oled_p2:
         what: via
-        where: true
-        adjust:
-          shift: [0, 2.4]
+        where: 
+          ref: main_far_bottom
+          shift: [16.2, 9]
         params:
-          net: "{{column_net}}"
+          net: "P2"
+      via_oled_p3:
+        what: via
+        where: 
+          ref: main_far_bottom
+          shift: [18.7, 9]
+        params:
+          net: "P3"
+      via_oled_vcc:
+        what: via
+        where: 
+          ref: main_far_bottom
+          shift: [21.3, 9]
+        params:
+          net: "VCC"
+      via_oled_gnd:
+        what: via
+        where: 
+          ref: main_far_bottom
+          shift: [23.8, 9]
+        params:
+          net: "GND"
       diode:
         what: diode
         params:
@@ -175,7 +203,7 @@ pcbs:
           to: "{{row_net}}"
         where: true
         adjust: 
-          shift: [0, -5]
+          shift: [0, -6.3]
       promicro:
         what: promicro_pretty
         where:
